@@ -1,7 +1,8 @@
 package org.example;
 
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class StringSorterApp {
     public static void main(String[] args) {
@@ -17,14 +18,14 @@ public class StringSorterApp {
             throw new IllegalArgumentException("unsortedStrings cannot be null");
         }
 
-        Stream<String> descSortedStrings = unsortedStrings.stream()
-                .filter(s -> s.startsWith(exceptionChar))
-                .sorted((s1, s2) -> s2.compareToIgnoreCase(s1));
-
-        Stream<String> ascSortedStrings = unsortedStrings.stream()
-                .filter(s -> !s.startsWith(exceptionChar))
-                .sorted();
-
-        return Stream.concat(ascSortedStrings, descSortedStrings).toList();
+        List<String> result = new LinkedList<>();
+        unsortedStrings.stream().sorted(Comparator.reverseOrder()).forEach(it -> {
+            if (it == null || it.startsWith(exceptionChar)) {
+                result.add(it);
+            } else {
+                result.add(0, it);
+            }
+        });
+        return result;
     }
 }
