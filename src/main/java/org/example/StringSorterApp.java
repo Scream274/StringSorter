@@ -13,6 +13,10 @@ public class StringSorterApp {
     }
 
     public static List<String> sortStrings(List<String> unsortedStrings, String exceptionChar) {
+        if (unsortedStrings == null) {
+            throw new IllegalArgumentException("unsortedStrings cannot be null");
+        }
+
         Stream<String> descSortedStrings = unsortedStrings.stream()
                 .filter(s -> s.startsWith(exceptionChar))
                 .sorted((s1, s2) -> s2.compareToIgnoreCase(s1));
